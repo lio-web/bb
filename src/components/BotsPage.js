@@ -1,20 +1,12 @@
-import React from "react";
-import YourBotArmy from "./YourBotArmy";
-import BotCollection from "./BotCollection";
+import React, { useState } from 'react';
+import BotCollection from './BotCollection';
+import YourBotArmy from './YourBotArmy';
 
-function BotsPage() {
-  //start here with your code for step one
-  
+const BotPage = () => {
   const [army, setArmy] = useState([]);
 
-  // useEffect(() => {
-  //   fetch('/bots')
-  //     .then(response => response.json())
-  //     .then(data => setBots(data));
-  // }, []);
-
   const addBotToArmy = (bot) => {
-    setArmy(prevArmy=>[...prevArmy, bot]);
+    setArmy(prevArmy => [...prevArmy, bot]);
   };
 
   const removeBotFromArmy = (botId) => {
@@ -28,14 +20,16 @@ function BotsPage() {
       });
   };
 
-
-
   return (
     <div>
-      <YourBotArmy army={army} removeBotFromArmy={removeBotFromArmy} dischargeBot={dischargeBot}/>
-      <BotCollection onAddBot={addBotToArmy} onDeleteBot={dischargeBot}  />
+      <BotCollection onAddBot={addBotToArmy} onDeleteBot={dischargeBot} />
+      <YourBotArmy
+        army={army}
+        removeBotFromArmy={removeBotFromArmy}
+        dischargeBot={dischargeBot}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default BotsPage;
+export default BotPage;
