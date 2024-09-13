@@ -1,33 +1,30 @@
-import React, { useState } from 'react';
-import BotCollection from './BotCollection';
-import YourBotArmy from './YourBotArmy';
+
+import React, { useState } from "react";
+import BotCollection from "./BotCollection";
+import YourBotArmy from "./YourBotArmy";
 
 const BotPage = () => {
   const [army, setArmy] = useState([]);
 
-  const addBotToArmy = (bot) => {
-    setArmy(prevArmy => [...prevArmy, bot]);
+  
+  const handleEnlistBot = (newBot) => {
+    if (!army.some((bot) => bot.id === newBot.id)) {
+      setArmy([...army, newBot]);
+    }
   };
 
-  const removeBotFromArmy = (botId) => {
-    setArmy(prevArmy => prevArmy.filter(bot => bot.id !== botId));
-  };
 
-  const dischargeBot = (botId) => {
-    fetch(`/bots/${botId}`, { method: 'DELETE' })
-      .then(() => {
-        setArmy(prevArmy => prevArmy.filter(bot => bot.id !== botId));
-      });
+  const handleRemoveBot = (botToRemove) => {
+    setArmy(army.filter((bot) => bot.id !== botToRemove.id));
   };
 
   return (
     <div>
-      <BotCollection onAddBot={addBotToArmy} onDeleteBot={dischargeBot} />
-      <YourBotArmy
-        army={army}
-        removeBotFromArmy={removeBotFromArmy}
-        dischargeBot={dischargeBot}
-      />
+      <h1>Your Bot Army</h1>
+      <YourBotArmy army={army} handleRemoveBot={handleRemoveBot} />
+      <h1>All Bots</h1>
+      <BotCollection handleEnlistBot={handleEnlistBot} />
+      
     </div>
   );
 };

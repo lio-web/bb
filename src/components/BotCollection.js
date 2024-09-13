@@ -1,28 +1,34 @@
+// BotCollection.js
 import React, { useEffect, useState } from "react";
-import BotCard from "./BotCard";
+import BotCard from "./BotCard"; 
 
-function BotCollection({ onAddBot, onDeleteBot }) {
+const BotCollection = ({ handleEnlistBot }) => {
   const [bots, setBots] = useState([]);
 
   useEffect(() => {
-    fetch("/bots")
+   
+    fetch("http://localhost:8002/bots")
       .then((response) => response.json())
-      .then((data) => setBots(data))
-      .catch((error) => console.error("Error fetching bots:", error));
+      .then((data) => setBots(data));
   }, []);
 
   return (
-    <div className="ui four column grid">
-      <div className="row">
-        {bots.map((bot) => (
-          <div className="column" key={bot.id}>
-            <BotCard bot={bot} onAddBot={onAddBot} onDeleteBot={onDeleteBot} /> 
-          </div>
-        ))}
-        Collection of all bots
-      </div>
+    <div style={styles.collectionContainer}>
+      {bots.map((bot) => (
+        <BotCard key={bot.id} bot={bot} handleEnlistBot={handleEnlistBot} />
+      ))}
     </div>
   );
-}
+};
+
+const styles = {
+  collectionContainer: {
+    display: "flex",
+    justifyContent: "space-around",
+    flexWrap: "wrap",
+    backgroundColor: "#d3e95f", // Green background as per the image
+    padding: "20px",
+  },
+};
 
 export default BotCollection;
